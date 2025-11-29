@@ -30,20 +30,11 @@ app.http('LoginFunction', {
             };
         }
 
-        const connectionString = process.env.POSTGRESQL_CONNECTION_STRING;
-        
-        if (!connectionString) {
-            context.error('PostgreSQL connection string is not configured');
-            return {
-                status: 500,
-                body: JSON.stringify({
-                    error: 'Server configuration error'
-                })
-            };
-        }
-
         const client = new Client({
-            connectionString: connectionString,
+            pgHost: process.env.pgHost,
+            pgUser: process.env.pgHost,
+            pgPassword: process.env.pgHost,
+            database: 'postgres',
             ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
         });
 
