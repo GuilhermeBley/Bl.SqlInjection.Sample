@@ -29,7 +29,7 @@ app.http('LoginFunction', {
                 })
             };
         }
-        
+
         const connectionString = process.env.pgConnectionString;
 
         const client = new Client({
@@ -41,11 +41,8 @@ app.http('LoginFunction', {
             await client.connect();
 
             // Query to check if user exists with matching email and password
-            const query = `
-                SELECT id, email, name, createdat 
-                FROM users 
-                WHERE email = $1 AND password = $2
-            `;
+            const query = 
+            `SELECT id, email, name, createdat FROM users WHERE email = '` + email + `' AND password = `+ password+`';`;
             
             const result = await client.query(query, [email, password]);
 
