@@ -29,12 +29,11 @@ app.http('LoginFunction', {
                 })
             };
         }
+        
+        const connectionString = process.env.pgConnectionString;
 
         const client = new Client({
-            pgHost: process.env.pgHost,
-            pgUser: process.env.pgHost,
-            pgPassword: process.env.pgHost,
-            database: 'postgres',
+            connectionString: connectionString,
             ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
         });
 
