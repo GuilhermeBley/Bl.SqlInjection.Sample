@@ -68,29 +68,29 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setLoading(true);
-    
+
     // Simulate API call
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       // Replace this with actual authentication logic
       console.log('Login attempt:', formData);
-      
+
       setAlert({
         show: true,
         message: 'Login successful!',
         severity: 'success'
       });
-      
+
       // Here you would typically:
       // - Save token to localStorage
       // - Redirect to dashboard
       // - Update global state
-      
+
     } catch (error) {
       setAlert({
         show: true,
@@ -110,8 +110,8 @@ const LoginPage = () => {
   };
 
   return (
-    <Container 
-      component="main" 
+    <Container
+      component="main"
       maxWidth="sm"
       sx={{
         minHeight: '100vh',
@@ -132,20 +132,28 @@ const LoginPage = () => {
           maxWidth: 400
         }}
       >
-        {/* Header */}
+
         <Box sx={{ textAlign: 'center', mb: 3 }}>
-          <Typography component="h1" variant="h4" fontWeight="bold" color="primary">
-            Welcome Back
-          </Typography>
+          <Box
+            component="img"
+            src="/Logo_SP2.png" // Direct path to public folder
+            alt="Logo"
+            sx={{
+              height: 26, // Adjust size as needed
+              width: 180,
+              mb: 2,
+              maxWidth: '100%'
+            }}
+          />
           <Typography variant="body2" color="text.secondary">
-            Sign in to your account
+            Realize o login para o exercício de exemplo de SQL Injection
           </Typography>
         </Box>
 
         {/* Alert */}
         {alert.show && (
-          <Alert 
-            severity={alert.severity} 
+          <Alert
+            severity={alert.severity}
             sx={{ width: '100%', mb: 2 }}
             onClose={() => setAlert({ ...alert, show: false })}
           >
@@ -161,7 +169,7 @@ const LoginPage = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="E-mail"
             name="email"
             autoComplete="email"
             autoFocus
@@ -184,7 +192,7 @@ const LoginPage = () => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Senha"
             type={showPassword ? 'text' : 'password'}
             id="password"
             autoComplete="current-password"
@@ -212,17 +220,6 @@ const LoginPage = () => {
             }}
           />
 
-          {/* Forgot Password */}
-          <Box sx={{ textAlign: 'right', mt: 1 }}>
-            <Button 
-              variant="text" 
-              size="small"
-              sx={{ textTransform: 'none' }}
-            >
-              Forgot password?
-            </Button>
-          </Box>
-
           {/* Submit Button */}
           <Button
             type="submit"
@@ -234,34 +231,9 @@ const LoginPage = () => {
             {loading ? (
               <CircularProgress size={24} />
             ) : (
-              'Sign In'
+              'Entrar'
             )}
           </Button>
-
-          {/* Demo Login Button */}
-          <Button
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 2, py: 1.5 }}
-            onClick={handleDemoLogin}
-            disabled={loading}
-          >
-            Use Demo Credentials
-          </Button>
-
-          {/* Sign Up Link */}
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
-              Don't have an account?{' '}
-              <Button 
-                variant="text" 
-                size="small"
-                sx={{ textTransform: 'none' }}
-              >
-                Sign up
-              </Button>
-            </Typography>
-          </Box>
         </Box>
       </Paper>
     </Container>

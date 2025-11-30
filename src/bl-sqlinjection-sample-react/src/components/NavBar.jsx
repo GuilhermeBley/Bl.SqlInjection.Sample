@@ -63,9 +63,8 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
 
   // Navigation items
   const navItems = [
-    { path: '/', label: 'Home', icon: <Home sx={{ mr: 1 }} /> },
-    { path: '/about', label: 'About', icon: <Info sx={{ mr: 1 }} /> },
-    { path: '/contact', label: 'Contact', icon: <ContactMail sx={{ mr: 1 }} /> },
+    { path: '/', label: 'Início', icon: <Home sx={{ mr: 1 }} /> },
+    { path: '/about', label: 'Sobre', icon: <Info sx={{ mr: 1 }} /> },
   ];
 
   const authItems = [
@@ -143,11 +142,6 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
               }
             }}
           >
-            <MenuItem component={Link} to="/profile" onClick={handleMenuClose}>
-              <AccountCircle sx={{ mr: 2 }} />
-              Profile
-            </MenuItem>
-            <Divider />
             <MenuItem onClick={handleLogout}>
               <ExitToApp sx={{ mr: 2 }} />
               Logout ({user?.username})
@@ -276,7 +270,7 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
                 alignItems: 'center',
               }}
             >
-              MyApp
+              Qualifica SP
             </Typography>
 
             {/* Desktop Navigation */}
