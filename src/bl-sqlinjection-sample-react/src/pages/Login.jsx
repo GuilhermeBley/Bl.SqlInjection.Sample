@@ -1,127 +1,271 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Container,
+  Paper,
+  Alert,
+  InputAdornment,
+  IconButton,
+  CircularProgress
+} from '@mui/material';
+import {
+  Visibility,
+  VisibilityOff,
+  Email,
+  Lock
+} from '@mui/icons-material';
 
-const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
 
-  // Get the intended destination or default to dashboard
-  const from = location.state?.from?.pathname || '/dashboard';
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
-  // Simple user database (in real app, this would be an API call)
-  const users = [
-    { username: 'admin', password: 'admin123', name: 'Administrator' },
-    { username: 'user', password: 'user123', name: 'Regular User' },
-    { username: 'john', password: 'doe123', name: 'John Doe' }
-  ];
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    
+    if (!validateForm()) return;
+
     setLoading(true);
-
-    // Simulate API call delay
-    setTimeout(() => {
-      // Find user in our "database"
-      const user = users.find(
-        u => u.username === username && u.password === password
-      );
-
-      if (user) {
-        // Login successful
-        onLogin({
-          username: user.username,
-          name: user.name,
-          loginTime: new Date().toLocaleString()
-        });
-        
-        // Redirect to intended page or dashboard
-        navigate(from, { replace: true });
-      } else {
-        setError('Invalid username or password');
-      }
+    
+    // Simulate API call
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Replace this with actual authentication logic
+      console.log('Login attempt:', formData);
+      
+      setAlert({
+        show: true,
+        message: 'Login successful!',
+        severity: 'success'
+      });
+      
+      // Here you would typically:
+      // - Save token to localStorage
+      // - Redirect to dashboard
+      // - Update global state
+      
+    } catch (error) {
+      setAlert({
+        show: true,
+        message: 'Login failed. Please check your credentials.',
+        severity: 'error'
+      });
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
-  const handleDemoLogin = (demoUsername, demoPassword) => {
-    setUsername(demoUsername);
-    setPassword(demoPassword);
+  const handleDemoLogin = () => {
+    setFormData({
+      email: 'demo@example.com',
+      password: 'demo123'
+    });
   };
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <h2>Login to Your Account</h2>
-        
-        {error && <div className="error-message">{error}</div>}
+    <Container 
+      component="main" 
+      maxWidth="sm"
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <Paper
+        elevation={8}
+        sx={{
+          padding: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          borderRadius: 2,
+          width: '100%',
+          maxWidth: 400
+        }}
+      >
+        {/* Header */}
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <Typography component="h1" variant="h4" fontWeight="bold" color="primary">
+            Welcome Back
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Sign in to your account
+          </Typography>
+        </Box>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
-
-          <button 
-            type="submit" 
-            className="login-btn"
-            disabled={loading || !username || !password}
+        {/* Alert */}
+        {alert.show && (
+          <Alert 
+            severity={alert.severity} 
+            sx={{ width: '100%', mb: 2 }}
+            onClose={() => setAlert({ ...alert, show: false })}
           >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+            {alert.message}
+          </Alert>
+        )}
 
-        {/* Demo credentials for testing */}
-        <div className="demo-credentials">
-          <h4>Demo Accounts:</h4>
-          <div className="demo-buttons">
-            <button 
-              onClick={() => handleDemoLogin('admin', 'admin123')}
-              className="demo-btn"
+        {/* Login Form */}
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+          {/* Email Field */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={formData.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Email color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {/* Password Field */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            autoComplete="current-password"
+            value={formData.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock color="action" />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {/* Forgot Password */}
+          <Box sx={{ textAlign: 'right', mt: 1 }}>
+            <Button 
+              variant="text" 
+              size="small"
+              sx={{ textTransform: 'none' }}
             >
-              Use Admin Account
-            </button>
-            <button 
-              onClick={() => handleDemoLogin('user', 'user123')}
-              className="demo-btn"
-            >
-              Use User Account
-            </button>
-            <button 
-              onClick={() => handleDemoLogin('john', 'doe123')}
-              className="demo-btn"
-            >
-              Use John's Account
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+              Forgot password?
+            </Button>
+          </Box>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, py: 1.5 }}
+            disabled={loading}
+          >
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              'Sign In'
+            )}
+          </Button>
+
+          {/* Demo Login Button */}
+          <Button
+            fullWidth
+            variant="outlined"
+            sx={{ mb: 2, py: 1.5 }}
+            onClick={handleDemoLogin}
+            disabled={loading}
+          >
+            Use Demo Credentials
+          </Button>
+
+          {/* Sign Up Link */}
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              Don't have an account?{' '}
+              <Button 
+                variant="text" 
+                size="small"
+                sx={{ textTransform: 'none' }}
+              >
+                Sign up
+              </Button>
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
-export default Login;
+export default LoginPage;
