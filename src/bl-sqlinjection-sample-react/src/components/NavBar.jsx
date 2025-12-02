@@ -270,7 +270,7 @@ const Navbar = ({ isAuthenticated, user, logout }) => {
                 alignItems: 'center',
               }}
             >
-              Qualifica SP
+              INTRODUÇÃO À CIBERSEGURANÇA
             </Typography>
 
             {/* Desktop Navigation */}

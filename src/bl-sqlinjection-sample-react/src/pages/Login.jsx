@@ -136,7 +136,7 @@ const LoginPage = () => {
         <Box sx={{ textAlign: 'center', mb: 3 }}>
           <Box
             component="img"
-            src="/Logo_SP2.png" // Direct path to public folder
+            src="/qualificasp.svg" // Direct path to public folder
             alt="Logo"
             sx={{
               height: 26, // Adjust size as needed
