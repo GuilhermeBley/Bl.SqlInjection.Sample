@@ -86,27 +86,47 @@ const LoginPage = () => {
         severity: 'success'
       });
 
-      // Here you would typically:
-      // - Save token to localStorage
-      // - Redirect to dashboard
-      // - Update global state
+
+      await fetch('api/LoginFunction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      })
+        .then(response => {
+
+          if (response.status === 401) {
+            setAlert({
+              show: true,
+              message: 'Usuário ou senha inválidos.',
+              severity: 'error'
+            });
+          }
+
+          if (response.status !== 200) {
+            setAlert({
+              show: true,
+              message: 'Falha ao realizar login.',
+              severity: 'error'
+            });
+          }
+
+          return response.json()
+        })
 
     } catch (error) {
       setAlert({
         show: true,
-        message: 'Login failed. Please check your credentials.',
+        message: 'Falha no login.',
         severity: 'error'
       });
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDemoLogin = () => {
-    setFormData({
-      email: 'demo@example.com',
-      password: 'demo123'
-    });
   };
 
   return (
