@@ -90,16 +90,17 @@ const LoginPage = () => {
 
 
       await api.post(
-        '',
+        'api/LoginFunction',
         {
-
+          email: formData.email,
+          password: formData.password
         }
       ).then(resp => {
         setAlert({
-              show: true,
-              message: 'Falha ao realizar login.',
-              severity: 'error'
-            });
+          show: true,
+          message: 'Falha ao realizar login.',
+          severity: 'error'
+        });
       }).catch(err => {
         if (axios.isAxiosError(err) === false) {
           setAlert({

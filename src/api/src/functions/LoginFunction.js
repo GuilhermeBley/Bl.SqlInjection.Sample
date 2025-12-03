@@ -42,9 +42,9 @@ app.http('LoginFunction', {
 
             // Query to check if user exists with matching email and password
             const query = 
-            `SELECT id, email, name, createdat FROM users WHERE email = '` + email + `' AND password = `+ password+`';`;
+            `SELECT id, email, name, createdat FROM users WHERE email = '` + email + `' AND password = '`+ password+`';`;
             
-            const result = await client.query(query, [email, password]);
+            const result = await client.query(query);
 
             await client.end();
 
