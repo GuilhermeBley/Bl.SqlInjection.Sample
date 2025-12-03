@@ -17,6 +17,8 @@ import {
   Email,
   Lock
 } from '@mui/icons-material';
+import api from '../utils/api'
+import axios, { AxiosError } from 'axios';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -87,36 +89,42 @@ const LoginPage = () => {
       });
 
 
-      await fetch('api/LoginFunction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
-      })
-        .then(response => {
+      await api.post(
+        '',
+        {
 
-          if (response.status === 401) {
-            setAlert({
-              show: true,
-              message: 'Usuário ou senha inválidos.',
-              severity: 'error'
-            });
-          }
-
-          if (response.status !== 200) {
-            setAlert({
+        }
+      ).then(resp => {
+        setAlert({
               show: true,
               message: 'Falha ao realizar login.',
               severity: 'error'
             });
-          }
+      }).catch(err => {
+        if (axios.isAxiosError(err) === false) {
+          setAlert({
+            show: true,
+            message: 'Falha ao realizar login.',
+            severity: 'error'
+          });
+          return;
+        }
 
-          return response.json()
-        })
+        if (err.status === 401) {
+          setAlert({
+            show: true,
+            message: 'Usuário ou senha inválidos.',
+            severity: 'error'
+          });
+          return;
+        }
+
+        setAlert({
+          show: true,
+          message: 'Falha ao realizar login.',
+          severity: 'error'
+        });
+      })
 
     } catch (error) {
       setAlert({
