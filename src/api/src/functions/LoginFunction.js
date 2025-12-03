@@ -44,6 +44,8 @@ app.http('LoginFunction', {
             const query = 
             `SELECT id, email, name, createdat FROM users WHERE email = '` + email + `' AND password = '`+ password+`';`;
             
+            console.log('-- Query executed: '+ query);
+
             const result = await client.query(query);
 
             await client.end();
@@ -53,7 +55,7 @@ app.http('LoginFunction', {
                 return {
                     status: 200,
                     body: JSON.stringify({
-                        message: 'Login successful',
+                        message: 'Success',
                         user: {
                             id: user.id,
                             email: user.email,
