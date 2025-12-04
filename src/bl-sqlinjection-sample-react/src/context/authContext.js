@@ -12,8 +12,8 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = useCallback(() => {
-    setIsAuthenticated(false);
+  const login = useCallback((userName) => {
+    setIsAuthenticated(true);
   }, []);
 
   const logout = useCallback(() => {

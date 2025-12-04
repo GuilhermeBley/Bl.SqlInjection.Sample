@@ -19,6 +19,8 @@ import {
 } from '@mui/icons-material';
 import api from '../utils/api'
 import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +31,8 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,11 +100,9 @@ const LoginPage = () => {
           password: formData.password
         }
       ).then(resp => {
-        setAlert({
-          show: true,
-          message: 'Falha ao realizar login.',
-          severity: 'error'
-        });
+        console.log('LOGIN OK.');
+        login(formData.email);
+        navigate('/');
       }).catch(err => {
         if (axios.isAxiosError(err) === false) {
           setAlert({
