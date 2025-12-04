@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import DashBoard from './pages/DashBoard';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -8,6 +8,7 @@ import Navbar from './components/NavBar';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
+import { AuthProvider } from './context/authContext';
 
 const theme = createTheme({
   palette: {
@@ -34,35 +35,37 @@ function App() {
     setUser(null);
   };
 
-   return (
+  return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Navbar 
-          isAuthenticated={isAuthenticated} 
-          user={user} 
-          logout={logout} 
-        />
-        <Routes>
-          <Route path="/" element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}> 
+      <AuthProvider>
+        <CssBaseline />
+        <Router>
+          <Navbar
+            isAuthenticated={isAuthenticated}
+            user={user}
+            logout={logout}
+          />
+          <Routes>
+            <Route path="/" element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <DashBoard />
               </ProtectedRoute>
-          } />
-          <Route 
-            path="/login" 
-            element={<Login onLogin={login} />} 
-          />
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}> 
-                <DashBoard />
-              </ProtectedRoute>
-            } 
-          />
-        </Routes>
-      </Router>
+            } />
+            <Route
+              path="/login"
+              element={<Login onLogin={login} />}
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <DashBoard />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
