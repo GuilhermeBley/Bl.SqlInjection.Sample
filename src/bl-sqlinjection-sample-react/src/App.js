@@ -22,43 +22,27 @@ const theme = createTheme({
 });
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-  const login = (userData) => {
-    setIsAuthenticated(true);
-    setUser(userData);
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-  };
 
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <CssBaseline />
         <Router>
-          <Navbar
-            isAuthenticated={isAuthenticated}
-            user={user}
-            logout={logout}
-          />
+          <Navbar />
           <Routes>
             <Route path="/" element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <ProtectedRoute>
                 <DashBoard />
               </ProtectedRoute>
             } />
             <Route
               path="/login"
-              element={<Login onLogin={login} />}
+              element={<Login />}
             />
             <Route
               path="/dashboard"
               element={
-                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <ProtectedRoute>
                   <DashBoard />
                 </ProtectedRoute>
               }

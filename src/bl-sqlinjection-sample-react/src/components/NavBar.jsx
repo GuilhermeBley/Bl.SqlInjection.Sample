@@ -25,6 +25,7 @@ import {
   ExitToApp
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 // Hide AppBar on scroll
 function HideOnScroll(props) {
@@ -38,10 +39,15 @@ function HideOnScroll(props) {
   );
 }
 
-const Navbar = ({ isAuthenticated, user, logout }) => {
+const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
   const location = useLocation();
+  const { isAuthenticated, logout }= useAuth();
+  const user = {
+    username: 'QualificaSP',
+    avatar: undefined
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
