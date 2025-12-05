@@ -4,7 +4,7 @@ Neste repositório vai ser mostrado um caso de uma implantação vulnerável de 
 ## Como explorar a falha
 Para explorar a falha de segurança desse web-site, será necessário fazer as seguintes tarefas:
 
-- Entre no link [INTRODUÇÃO À CIBERSEGURANÇA]([http://example.com](https://green-cliff-05e9d7c10.3.azurestaticapps.net))
+- Entre no link [INTRODUÇÃO À CIBERSEGURANÇA]([http://example.com](https://green-cliff-05e9d7c10.3.azurestaticapps.net)
 - Digite no e-mail `validemail@email.com' or true --` (por questões de segurança somente esse injeção funciona)
 - Entre com uma senha de mais de 8 caracteres, Ex. `senha12345`
 
