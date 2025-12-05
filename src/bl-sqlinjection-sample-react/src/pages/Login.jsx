@@ -81,17 +81,7 @@ const LoginPage = () => {
 
     // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Replace this with actual authentication logic
       console.log('Login attempt:', formData);
-
-      setAlert({
-        show: true,
-        message: 'Login successful!',
-        severity: 'success'
-      });
-
 
       await api.post(
         'api/LoginFunction',
@@ -101,6 +91,13 @@ const LoginPage = () => {
         }
       ).then(resp => {
         console.log('LOGIN OK.');
+        
+        setAlert({
+          show: true,
+          message: 'Login successful!',
+          severity: 'success'
+        });
+
         login(formData.email);
         navigate('/');
       }).catch(err => {

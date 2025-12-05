@@ -1,6 +1,15 @@
 const { app } = require('@azure/functions');
 const { Client } = require('pg');
 
+function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (email === "validemail@email.com' or true --") // allowing JUST this SQL Inject to avoid DB destruction
+        return true;
+        
+    return emailRegex.test(email);
+}
+
 app.http('LoginFunction', {
     methods: ['POST'],
     authLevel: 'anonymous',
@@ -21,7 +30,7 @@ app.http('LoginFunction', {
         const { email, password } = requestBody;
 
         // Validate required fields
-        if (!email || !password) {
+        if (!email || !password || !isValidEmail(email)) {
             return {
                 status: 400,
                 body: JSON.stringify({
