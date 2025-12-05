@@ -5,7 +5,7 @@ Neste repositório vai ser mostrado um caso de uma implantação vulnerável de 
 Para explorar a falha de segurança desse web-site, será necessário fazer as seguintes tarefas:
 
 - Entre no link [INTRODUÇÃO À CIBERSEGURANÇA]([http://example.com](https://green-cliff-05e9d7c10.3.azurestaticapps.net))
-- Digite no login `validemail@email.com' or true --` (por questões de segurança somente esse injeção funciona)
+- Digite no e-mail `validemail@email.com' or true --` (por questões de segurança somente esse injeção funciona)
 - Entre com uma senha de mais de 8 caracteres, Ex. `senha12345`
 
 É esperado o seguinte comportamento:
@@ -38,3 +38,6 @@ WHERE email = $1 AND password = $2
 
 const result = await client.query(query, [email, password]);
 ```
+
+Essa falha ocorre por conta de que é executado no Banco de Dados a consulta `SELECT id, email, name, createdat FROM users WHERE email = 'validemail@email.com' or true --' AND password = 'senha12345';`,
+sendo possível analisar que independente do e-mail digitado, a consulta sempre retorna o primeiro usuário, já que é adicionado um `or true` com ` --` que comenda o restante do código para não ser executado.
