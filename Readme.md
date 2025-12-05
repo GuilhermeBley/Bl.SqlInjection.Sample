@@ -1,6 +1,20 @@
 # Exemplo de caso SQL Injection
 Neste repositório vai ser mostrado um caso de uma implantação vulnerável de código SQL na linguagem JavaScript.
 
+## Como explorar a falha
+Para explorar a falha de segurança desse web-site, será necessário fazer as seguintes tarefas:
+
+- Entre no link [INTRODUÇÃO À CIBERSEGURANÇA]([http://example.com](https://green-cliff-05e9d7c10.3.azurestaticapps.net))
+- Digite no login `validemail@email.com' or true --` (por questões de segurança somente esse injeção funciona)
+- Entre com uma senha de mais de 8 caracteres, Ex. `senha12345`
+
+É esperado o seguinte comportamento:
+
+![sqlinjfail](https://github.com/user-attachments/assets/db27212f-f208-411d-93e0-39ea12d06822)
+
+Sendo exibido a seguinte mensagem
+
+<img width="1335" height="640" alt="successphoto" src="https://github.com/user-attachments/assets/b0edec22-6bd0-42db-ac72-8707ee083259" />
 
 ## O que fez essa falha ocorrer
 O ataque de SQL Injection (SQLi) explora falhas de programação que ocorrem quando uma aplicação web não filtra ou valida corretamente os dados fornecidos pelos usuários antes de os incluir em uma consulta SQL.
