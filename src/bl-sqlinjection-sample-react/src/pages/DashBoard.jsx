@@ -9,9 +9,11 @@ import {
 import {
   CheckCircle,
   ArrowForward} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const DashBoard = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -32,16 +34,20 @@ const DashBoard = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <CheckCircle sx={{ fontSize: 40, mr: 2 }} />
             <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
-              Welcome Back!
+              Ola!
             </Typography>
           </Box>
           <Typography variant="h6" sx={{ mb: 3, opacity: 0.9, maxWidth: '800px' }}>
-            Congratulations on your successful login! You now have access to all 
-            the features and resources available in your account.
+            Você completou com sucesso o desafio de SQL Injection! 
+            
+            Você pode entender melhor o que ocorreu aqui no link abaixo.
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               variant="contained"
+              onClick={() => {
+                window.open('https://github.com/GuilhermeBley/Bl.SqlInjection.Sample', '_blank')
+              }}
               sx={{
                 backgroundColor: 'white',
                 color: theme.palette.primary.main,
@@ -51,20 +57,7 @@ const DashBoard = () => {
               }}
               endIcon={<ArrowForward />}
             >
-              Go to Dashboard
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: 'white',
-                color: 'white',
-                '&:hover': {
-                  borderColor: 'white',
-                  backgroundColor: 'rgba(255,255,255,0.1)'
-                }
-              }}
-            >
-              Explore Features
+              Ir para explicações
             </Button>
           </Box>
         </Box>
