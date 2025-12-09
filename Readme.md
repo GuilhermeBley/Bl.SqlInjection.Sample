@@ -17,7 +17,7 @@ Sendo exibido a seguinte mensagem
 <img width="1335" height="640" alt="successphoto" src="https://github.com/user-attachments/assets/b0edec22-6bd0-42db-ac72-8707ee083259" />
 
 ## O que fez essa falha ocorrer
-O ataque de SQL Injection (SQLi) explora falhas de programação que ocorrem quando uma aplicação web não filtra ou valida corretamente os dados fornecidos pelos usuários antes de os incluir em uma consulta SQL.
+O ataque de SQL Injection (SQL) explora falhas de programação que ocorrem quando uma aplicação web não filtra ou valida corretamente os dados fornecidos pelos usuários antes de os incluir em uma consulta SQL.
 
 Onde neste caso foi implementado o código da maneira incorreta, como mostrado no trecho:
 
@@ -39,5 +39,8 @@ WHERE email = $1 AND password = $2
 const result = await client.query(query, [email, password]);
 ```
 
-Essa falha ocorre por conta de que é executado no Banco de Dados a consulta `SELECT id, email, name, createdat FROM users WHERE email = 'validemail@email.com' or true --' AND password = 'senha12345';`,
-sendo possível analisar que independente do e-mail digitado, a consulta sempre retorna o primeiro usuário, já que é adicionado um `or true` com ` --` que comenda o restante do código para não ser executado.
+Essa falha ocorre por conta de que é executado no Banco de Dados a consulta:
+```sql
+SELECT id, email, name, createdat FROM users WHERE email = 'validemail@email.com' or true --' AND password = 'senha12345';
+```
+Sendo possível analisar que independente do e-mail digitado, a consulta sempre retorna o primeiro usuário, já que é adicionado um `or true` com ` --` que comenda o restante do código para não ser executado.
